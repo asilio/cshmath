@@ -1,0 +1,10 @@
+<div class = 'print sixteen columns'>
+	<label class='two columns'>Title:</label><label id='title' class='thirteen columns'> {{title}}</label>
+	<p id='description' class='fourteen columns'>{{{description}}}</p>
+</div><div class='edit sixteen columns'><div class='fourteen columns'>
+	<label class='two columns'>Title: </label><input id='title' type='text' value = {{title}}></input>
+	<label class='one columns'>Description: </label><textarea id='description' class='fourteen columns'>{{{description}}}</textarea><form class='noactionupdate' action='/rest/Class.student.new/' method='POST'><input type='hidden' value='{{id}}'></input><input type='submit' value='Add New User to Student'></submit></form><form class='noactionupdate' action='/rest/Class.instructor.new/' method='POST'><input type='hidden' value='{{id}}'></input><input type='submit' value='Add New User to Instructor'></submit></form><form class='noactionupdate' action='/rest/Class.class.new/' method='POST'><input type='hidden' value='{{id}}'></input><input type='submit' value='Add New Category to Class'></submit></form>
+</div><button class='__done__ one columns'>Done</button></div><div class='view sixteen columns'><div class='fourteen columns'>
+	<label class='one columns'>Title:</label><p id='title' class='thirteen columns'> {{title}}</p>
+	<label class='one columns'>Description: </label><p id='description' class='sixteen columns'>{{{description}}}</p>
+</div><button class='__edit__ one columns'>Edit</button></div>

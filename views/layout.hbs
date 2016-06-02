@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{title}}</title>
+	<link rel='stylesheet' href='/stylesheets/base.css' />
+	<link rel='stylesheet' href='/stylesheets/skeleton.css' />
+	<link rel='stylesheet' href='/stylesheets/layout.css' />
+	{{#if user}}
+		<script data-main="/javascripts/app/entry" src="/javascripts/require.js"></script>
+		{{{./csrf}}}
+		{{{./templates}}}
+		<script id="__user__" x='{{user.displayName}}' y='{{user.id}}' type="text/plain"></script>
+		
+	{{/if}}
+  </head>
+  <body class="print">
+  	<section class='no_print' >Logged in as {{user.displayName}}</section>
+    {{{body}}}
+  </body>
+</html>

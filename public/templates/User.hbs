@@ -1,0 +1,14 @@
+<div class = 'print sixteen columns'>
+	<label class='two columns'>Email:</label><label id='email' class='thirteen columns'> {{email}}</label>
+</div><div class='edit sixteen columns'><div class='fourteen columns'>
+	<label class='two columns'>Email: </label><label id='email'>{{email}}</label>
+	<label class='two columns'>Type: </label><select id='type' selected='{{type}}'>
+		<option value='{{type}}' label='Currently: {{type}}' selected='true'>
+		<option value='student'>student</option>
+		<option value='admin'>admin</option>
+		<option value='instructor'>instructor</option>
+	</select><form class='noactionupdate' action='/rest/User.student.new/' method='POST'><input type='hidden' value='{{id}}'></input><input type='submit' value='Add New Class to Student'></submit></form><form class='noactionupdate' action='/rest/User.instructor.new/' method='POST'><input type='hidden' value='{{id}}'></input><input type='submit' value='Add New Class to Instructor'></submit></form>
+</div><button class='__done__ one columns'>Done</button></div><div class='view sixteen columns'><div class='fourteen columns'>
+	<label class='one columns'>Email:</label><p id='email' class='thirteen columns'> {{email}}</p>
+	<label class='one columns'>Type:</label><p id='type' class='thirteen columns'> {{type}}</p>
+</div><button class='__edit__ one columns'>Edit</button></div>

@@ -1,0 +1,10 @@
+<div class = 'print sixteen columns'>
+	<label class='two columns'>Rank:</label><label id='rank' class='thirteen columns'> {{rank}}</label>
+	<p id='definition' class='fourteen columns'>{{{definition}}}</p>
+</div><div class='edit sixteen columns'><div class='fourteen columns'>
+	<label class='two columns'>Rank: </label><input id='rank' type='text' value = {{rank}}></input>
+	<label class='one columns'>Definition: </label><textarea id='definition' class='fourteen columns'>{{{definition}}}</textarea><form class='noactionupdate' action='/rest/Definition.entry.new/' method='POST'><input type='hidden' value='{{id}}'></input><input type='submit' value='Add New Glossary to Entry'></submit></form>
+</div><button class='__done__ one columns'>Done</button></div><div class='view sixteen columns'><div class='fourteen columns'>
+	<label class='one columns'>Rank:</label><p id='rank' class='thirteen columns'> {{rank}}</p>
+	<label class='one columns'>Definition: </label><p id='definition' class='sixteen columns'>{{{definition}}}</p>
+</div><button class='__edit__ one columns'>Edit</button></div>

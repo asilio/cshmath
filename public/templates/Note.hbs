@@ -1,0 +1,16 @@
+<div class = 'print sixteen columns'>
+	<label class='two columns'>Title:</label><label id='title' class='thirteen columns'> {{title}}</label>
+	<p id='description' class='fourteen columns'>{{{description}}}</p>
+	<p id='content' class='fourteen columns'>{{{content}}}</p>
+	<p id='header' class='fourteen columns'>{{{header}}}</p>
+</div><div class='edit sixteen columns'><div class='fourteen columns'>
+	<label class='two columns'>Title: </label><input id='title' type='text' value = {{title}}></input>
+	<label class='one columns'>Description: </label><textarea id='description' class='fourteen columns'>{{{description}}}</textarea>
+	<label class='one columns'>Content: </label><textarea id='content' class='fourteen columns'>{{{content}}}</textarea>
+	<label class='one columns'>Header: </label><textarea id='header' class='fourteen columns'>{{{header}}}</textarea><form class='noactionupdate' action='/rest/Note.category.new/' method='POST'><input type='hidden' value='{{id}}'></input><input type='submit' value='Add New Category to Category'></submit></form><form class='noactionupdate' action='/rest/Note.module.new/' method='POST'><input type='hidden' value='{{id}}'></input><input type='submit' value='Add New Module to Module'></submit></form>
+</div><button class='__done__ one columns'>Done</button></div><div class='view sixteen columns'><div class='fourteen columns'>
+	<label class='one columns'>Title:</label><p id='title' class='thirteen columns'> {{title}}</p>
+	<label class='one columns'>Description: </label><p id='description' class='sixteen columns'>{{{description}}}</p>
+	<label class='one columns'>Content: </label><p id='content' class='sixteen columns'>{{{content}}}</p>
+	<label class='one columns'>Header: </label><p id='header' class='sixteen columns'>{{{header}}}</p>
+</div><button class='__edit__ one columns'>Edit</button></div>

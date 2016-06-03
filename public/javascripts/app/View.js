@@ -29,7 +29,10 @@ define("View",function(require){
 
 		//Set the template using the model.type()
 		//Then cache the template for rapid templating.
-		var source = $("#template_for_"+this.model.type()).html();
+		if(this.model.type)
+			var source = $("#template_for_"+this.model.type()).html();
+		else
+			var source = undefined;
 		this.template = hbs.compile(source);
 		this.display="view";
 		this.initialize.apply(this, arguments);
@@ -279,9 +282,9 @@ define("View",function(require){
 		},
 		
 		saveModel:function(){
-			console.log("Saving...")
-			console.log(this._waiting_for_response);
-			console.log(this.model.changedAttributes());
+			//console.log("Saving...")
+			//console.log(this._waiting_for_response);
+			//console.log(this.model.changedAttributes());
 			this.updateView();
 			if(this._waiting_for_response || !this.model.changedAttributes()){
 				 return;
@@ -292,10 +295,10 @@ define("View",function(require){
 			this.model.save(null,{
 				success:function(e,r){
 					this._waiting_for_response = false;
-					console.log("Saved!");
+				//	console.log("Saved!");
 				}.bind(this),
 				error:function(e,r){
-					console.log("Error!");
+				//	console.log("Error!");
 					console.log(e);
 				}.bind(this)
 			});

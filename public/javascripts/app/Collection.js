@@ -24,6 +24,7 @@ define("Collection",function(require){
 		this._reset();
 		this.initialize.apply(this, arguments);
 		if (models) this.reset(models, _.extend({silent: true}, options));
+		this.type = function(){return "Collection";};
 	};
 
 	// Default options for `Collection#set`.
@@ -264,15 +265,22 @@ define("Collection",function(require){
 		// collection when they arrive. If `reset: true` is passed, the response
 		// data will be passed through the `reset` method instead of `set`.
 		fetch: function(options) {
+			console.log("FETCH");
 			options = _.extend({parse: true}, options);
 			var success = options.success;
 			var collection = this;
 			options.success = function(resp) {
-			var method = options.reset ? 'reset' : 'set';
-			collection[method](resp, options);
-			if (success) success.call(options.context, collection, resp, options);
-				collection.trigger('sync', collection, resp, options);
+				//console.log("Success!")
+				//console.log(resp);
+				var method = options.reset ? 'reset' : 'set';
+				collection[method](resp, options);
+				if (success) success.call(options.context, collection, resp, options);
+					collection.trigger('sync', collection, resp, options);
 			};
+			options.error = function(resp){
+				console.log("ERROR");
+				console.log(resp);
+			}
 		//	wrapError(this, options);
 			return this.sync('read', this, options);
 		},

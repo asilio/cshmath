@@ -322,6 +322,7 @@ define("Model",function(require){
 		// **parse** converts a response into the hash of attributes to be `set` on
 		// the model. The default implementation is just to pass the response along.
 		parse: function(resp, options) {
+			if(this.structure)
 			_.each(resp,function(c,k){
 				if(this.structure[k] === undefined) return;
 				if(this.structure[k].type == "DateTimeField"){

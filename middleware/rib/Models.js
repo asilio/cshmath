@@ -77,8 +77,11 @@ var Models={
 		
 		fk:{
 			creator:"User",
-			class:"Class",
 			submodule:"Module",
+		},
+		
+		mtm:{
+			class_module:"Class",
 		},
 		
 		name:"Module",
@@ -116,18 +119,18 @@ var Models={
 	Question:{
 		columns:{
 			title:{type:"CharField",length:255},
-			description:{type:"TextField"},			
-			header:{type:"TextField"},
-			question:{type:"TextField"},
-			answer:{type:"TextField"},
-			solution:{type:"TextField"},
-			graph_data:{type:"TextField"},
-			placeholder:{type:"CharField",length:255},
+			description:{type:"TextField",print:false},			
+			header:{type:"TextField",print:false},
+			question:{type:"TextField",editable:true},
+			answer:{type:"TextField",print:false},
+			solution:{type:"TextField",print:false},
+			graph_data:{type:"TextField",print:false},
+			placeholder:{type:"CharField",length:255,print:false},
 			answer_type:{type:"CharField",choices:[
 				"expression","number","function","matrix","equation","array","list","tuple","string","character","interval"
-				]},
-			hint:{type:"TextField"},
-			tags:{type:"CharField",length:255},
+				],print:false},
+			hint:{type:"TextField",print:false},
+			tags:{type:"CharField",length:255,print:false},
 
 		},
 	
@@ -166,7 +169,7 @@ var Models={
 		},
 		
 		mtm:{
-			class:"Class",
+			class_category:"Class",
 			subcategory:"Category"
 		},
 
@@ -224,8 +227,8 @@ var Models={
 		mtm:{
 			category:"Category",
 			question:"Question",
-			class:"Class",
-			module:"Module",
+			class_assignment:"Class",
+			module_assignment:"Module",
 		},
 		
 		name:"Assignment",
@@ -248,10 +251,11 @@ var Models={
 		},
 		
 		mtm:{
-			category:"Category",
-			module:"Module",
+			category_note:"Category",
+			lecture:"Module",
 		},
 	},
+	
 
 };
 

@@ -1,7 +1,7 @@
 <div class = 'print sixteen columns'>
 	<label class='two columns'>Entry:</label><label id='entry' class='thirteen columns'> {{entry}}</label>
 </div><div class='edit sixteen columns'><div class='fourteen columns'>
-	<label class='two columns'>Entry: </label><input id='entry' type='text' value = {{entry}}></input><form class='noactionupdate' action='/rest/Glossary.entry.new/' method='POST'><input type='hidden' value='{{id}}'></input><input type='submit' value='Add New Definition to Entry'></submit></form>
+	<label class='two columns'>Entry: </label><input id='entry' type='text' value = '{{entry}}'></input><form class='noactionupdate' action='/rest/Glossary.entry.new/' method='POST'><input type='hidden' value='{{id}}'></input><input type='submit' value='Add New Definition to Entry'></submit></form>
 </div><button class='__done__ one columns'>Done</button></div><div class='view sixteen columns'><div class='fourteen columns'>
 	<label class='one columns'>Entry:</label><p id='entry' class='thirteen columns'> {{entry}}</p>
 </div><button class='__edit__ one columns'>Edit</button></div>

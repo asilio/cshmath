@@ -76,19 +76,19 @@ define("Views",function(require){
 	
 		Question:{
 			columns:{
-				description:{type:"TextField",auth:["instructor","admin"]},
+				description:{type:"TextField",auth:["instructor","admin"],print:false},
 				title:{type:"CharField",length:255,auth:["instructor","admin"]},
-				header:{type:"TextField",auth:["instructor","admin"]},
+				header:{type:"TextField",auth:["instructor","admin"],print:false},
 				question:{type:"TextField",auth:["instructor","admin"]},
-				answer:{type:"TextField",auth:["instructor","admin"]},
-				solution:{type:"TextField",auth:["instructor","admin"]},
-				hint:{type:"TextField",auth:["instructor","admin"]},
-				graph_data:{type:"TextField",auth:["instructor","admin"]},
-				tags:{type:"CharField",length:255,auth:["instructor","admin"]},
-				placeholder:{type:"CharField",length:255,auth:["instructor","admin"]},
+				answer:{type:"TextField",auth:["instructor","admin"],print:false},
+				solution:{type:"TextField",auth:["instructor","admin"],print:false},
+				hint:{type:"TextField",auth:["instructor","admin"],print:false},
+				graph_data:{type:"TextField",auth:["instructor","admin"],print:false},
+				tags:{type:"CharField",length:255,auth:["instructor","admin"],print:false},
+				placeholder:{type:"CharField",length:255,auth:["instructor","admin"],print:false},
 				answer_type:{type:"CharField",choices:[
 					"expression","number","function","matrix","equation","array","list","tuple","string","character","interval"
-					],auth:["instructor","admin"]},
+					],auth:["instructor","admin"],print:false},
 			},
 			
 			name:"Question",

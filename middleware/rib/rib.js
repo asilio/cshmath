@@ -26,11 +26,12 @@ _.each(Models,function(model){
 				models[values[i]].mtm[keys[i]]=model.name;
 				models[values[i]].secondary.push(keys[i]);
 			}
-			models[values[i]][keys[i]]=new mtm(values[i],model.name,keys[i],_.clone(Models[model.name].columns));		
+			models[values[i]][keys[i]]=new mtm(values[i],model.name,keys[i],_.clone(Models[model.name].columns),_.clone(Models[model.name].mtm));		
 		}
 	}
 });
 
+exports.Models = models;
 _.each(models,function(m){
 	
 	exports[m.name] = Model.extend(m);
@@ -49,6 +50,7 @@ _.each(models,function(m){
 			rib.Model.delete(id,callback)
 	*/
 	exports[m.name].all 	= function(callback){
+		console.log("ALL");
 		db.all(this._name(),callback);
 	};
 	
@@ -175,7 +177,7 @@ var init = function(callback){
 					edit+="\n\t<label class='one columns'>"+key[0].toUpperCase()+key.slice(1)+": </label><textarea id='"+key+"' class='fourteen columns'>{{{"+key+"}}}</textarea>";
 				if(col.type ==="CharField" || col.type ==="EmailField")
 					if(col.editable!=false && !col.choices)
-						edit+="\n\t<label class='two columns'>"+key[0].toUpperCase()+key.slice(1)+": </label><input id='"+key+"' type='text' value = {{"+key+"}}></input>";
+						edit+="\n\t<label class='two columns'>"+key[0].toUpperCase()+key.slice(1)+": </label><input id='"+key+"' type='text' value = '{{"+key+"}}'></input>";
 					else if(col.editable!=false && col.choices){
 						edit+="\n\t<label class='two columns'>"+key[0].toUpperCase()+key.slice(1)+": </label><select id='"+key+"' selected='{{"+key+"}}'>";
 						edit+="\n\t\t<option value='{{"+key+"}}' label='Currently: {{"+key+"}}' selected='true'>";

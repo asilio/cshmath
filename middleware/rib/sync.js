@@ -13,8 +13,12 @@ var create	= function(options){
 var read	= function(options){
 	var properties  = {};
 	properties.id = options.data.id;
-
+	console.log("DB Search...")
+	console.log(options)
 	return db.get(options.table,properties,function(err,result){
+	
+		console.log(err)
+		console.log(result)
 		if(err)
 			return options.error(err);
 		return options.success(result[0]);

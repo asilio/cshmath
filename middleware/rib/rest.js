@@ -6,8 +6,8 @@ var _			= require("lodash");
 
 var __callback__ = function(req,res,next){
 	var f = function(err,result){
-		console.log("CALLBACK");
-		console.log(result);
+//		console.log("CALLBACK");
+//		console.log(result);
 		if(err) return next(err);
 		res.send(result);
 	}
@@ -26,7 +26,7 @@ var __success__ = function(req,res,next){
 
 var __error__ = function(req,res,next){
 	return function(model,resp,options){
-		console.log(model,resp,options)
+//		console.log(model,resp,options)
 		next(new Error("did not succeed"));
 	}
 }
@@ -53,18 +53,19 @@ router.route("/:Model/:id")
 })
 .put(function(req,res,next){
 	var u = new rib[req.params.Model]();
-	console.log("PUT",req.body);
-	console.log(req.body);
+//	console.log("PUT",req.body);
+//	console.log(req.body);
 	u.save(req.body,__save__(req,res,next));
 })
 .delete(function(req,res,next){
 	rib[req.params.Model].delete(req.params.id,__callback__(req,res,next));
 });
 
-router.route("/:Model.:alias.:verb")
+router.route("/:Model.:alias.:verb/id/:id")
 .all(function(req,res,next){
 	if(!rib[req.params.Model]) return next(new Error("Could not find model"));
 	var model = new rib[req.params.Model]({id:req.body.id});
+	var id = req.params.id;
 	var payload ={};
 	if(req.body["keys[]"])
 	{
@@ -80,18 +81,22 @@ router.route("/:Model.:alias.:verb")
 			model.fetch({success:cbk,error:cbk});
 		}],function(err,result){
 			//console.log("FINAL CALLBACK", err,result);
-			if(!model[req.params.alias]) return next(new Error("Could not locate an alias with that name"));
-			if(!model[req.params.alias][req.params.verb]) return next(new Error("Could not find that verb"));
+			//if(!model[req.params.alias]) return next(new Error("Could not locate an alias with that name"));
+			//if(!model[req.params.alias][req.params.verb]) return next(new Error("Could not find that verb"));
 			
-			var action = model[req.params.alias][req.params.verb]
+			//var action = rib.Models[req.params.alias][req.params.verb]
 			switch(req.params.verb){
 				case "all":
-//					console.log(req.params.Model+"."+req.params.alias+"."+req.params.verb);
-//					console.log(model)
-//					console.log(model[req.params.alias]);
+					//We no longer want a specific model nor to create a new instance
+					//but we do want to return ALL of the instances of this model...
+					//console.log(req.params.Model+"."+req.params.alias+"."+req.params.verb);
+					//console.log(model)
+					//console.log(model[req.params.alias]);
 					var callback  = __callback__(req,res,next);
 //					console.log(callback);
-					return action.apply(model[req.params.alias],[callback]);
+					console.log("rib.Models."+req.params.Model+"."+req.params.alias+".all");
+					return rib.Models[req.params.Model][req.params.alias].all(id,callback);
+//					return action.apply(rib.Models[req.params.alias],[id,callback]);
 				case "new":
 					if(!rib[model[req.params.alias].other_model]) return next(new Error("Could not locate other model. Weird"));
 					var u = new rib[model[req.params.alias].other_model]();
@@ -171,7 +176,25 @@ rib.init(function(err,result){
 	rib.Class.all(function(err,result){
 		console.log(result);
 	})
+	
+	var callback =function(res,err)
+	{
+		console.log(res,err);
+	}
+
+	//Get all classes that user 1 is an instructor for
+	rib.Models.User.instructor.all(1,callback);
+	
+	//Get all classes that user 1 is a student in
+	rib.Models.User.student.all(1,callback);
+
+	//Get all questions from a particular assignment	
+	rib.Models.Assignment.question.all(150,callback);
 		*/
-	console.log("Ready!")
+//	console.log(rib.Class.all(function(resp,err){
+//		console.log(resp,err);
+//	}));
+	console.log(rib.Models);
+	console.log("Ready!");
 });
 module.exports = router;

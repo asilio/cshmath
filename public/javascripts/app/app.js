@@ -74,30 +74,7 @@ define("app",function(require){
 		app[m.name].prototype.url = function(){return "/rest/"+m.name;};
 	})
 
-	console.log(app);
-	//Load the logged in user--Skip login for offline development
 
-	var user_id = $("#__user__").attr("y");
-	var user_name = $('#__user__').attr("x");
-	var u = new app.User({id:user_id});
-	u.once("sync",function(){
-		u.view.render();
-		$('.container').html(u.view.el);
-	});
-	//Launch the app by fetching the user.
-	u.fetch();
-	
-	var Users = app.Collection.extend({
-		model:app.User,
-		url: function(){return '/Users'},
-	});
-
-	users = new Users();
-	users.create({email:"ohoh@gmail.com"});
-	console.log(users)
-	//users.fetch();
-	console.log(users.get({id:1}));
-	console.log(Users);	
 	return app;
 	
 });

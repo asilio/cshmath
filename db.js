@@ -109,6 +109,11 @@ function getLimit(properties)
 	return limit;
 }
 
+/*WINNER for updating based on a selection
+UPDATE class_user_instructor
+SET rank = rank + 1 
+WHERE instructor_id = 1 and rank > 25;
+*/
 
 var db={
 
@@ -151,6 +156,8 @@ var db={
 	//This uses Regular expression searches for any string
 	//containing the search value.
 	search:function(bucket, properties, callback){
+		console.log("SEARCHING DB");
+		console.log("properties");
 		var connection=apple(false);
 		
 		//If the properties.limit is set, assume that the user wants a limit

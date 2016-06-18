@@ -3,6 +3,7 @@ var router 		= express.Router();
 var rib 		= require("./rib");
 var async	 	= require("async");
 var _			= require("lodash");
+var sync 		= require("./sync");
 
 var __callback__ = function(req,res,next){
 	var f = function(err,result){
@@ -26,7 +27,8 @@ var __success__ = function(req,res,next){
 
 var __error__ = function(req,res,next){
 	return function(model,resp,options){
-//		console.log(model,resp,options)
+		console.log("ERROR: ")
+		console.log(model,resp,options)
 		next(new Error("did not succeed"));
 	}
 }
@@ -38,6 +40,17 @@ var __save__ = function(req,res,next){
 	options.error 	= __error__(req,res,next);
 	return options;
 }
+
+router.route("/search/:Model")
+.post(function(req,res,next){
+	if(!rib[req.params.Model]) return next(new Error("Could not find model"));
+
+	var model = new rib[req.params.Model]({id:req.params.id});
+
+	rib[req.params.Model].search(req.body.query,__callback__(req,res,next));
+});
+
+
 router.route("/:Model/:id")
 .all(function(req,res,next){
 	if(!rib[req.params.Model]) return next(new Error("Could not locate Model"));
@@ -61,12 +74,15 @@ router.route("/:Model/:id")
 	rib[req.params.Model].delete(req.params.id,__callback__(req,res,next));
 });
 
+
 router.route("/:Model.:alias.:verb/id/:id")
 .all(function(req,res,next){
 	if(!rib[req.params.Model]) return next(new Error("Could not find model"));
-	var model = new rib[req.params.Model]({id:req.body.id});
+	//var model = new rib[req.params.Model]({id:req.body.id});
+	var model = new rib[req.params.Model]({id:req.params.id});
 	var id = req.params.id;
 	var payload ={};
+	console.log("BODY : ",req.body);
 	if(req.body["keys[]"])
 	{
 		if((typeof req.body["keys[]"])==="string")
@@ -80,7 +96,7 @@ router.route("/:Model.:alias.:verb/id/:id")
 		function(cbk){
 			model.fetch({success:cbk,error:cbk});
 		}],function(err,result){
-			//console.log("FINAL CALLBACK", err,result);
+			console.log("FINAL CALLBACK", err,result);
 			//if(!model[req.params.alias]) return next(new Error("Could not locate an alias with that name"));
 			//if(!model[req.params.alias][req.params.verb]) return next(new Error("Could not find that verb"));
 			
@@ -89,25 +105,54 @@ router.route("/:Model.:alias.:verb/id/:id")
 				case "all":
 					//We no longer want a specific model nor to create a new instance
 					//but we do want to return ALL of the instances of this model...
-					//console.log(req.params.Model+"."+req.params.alias+"."+req.params.verb);
+					console.log(req.params.Model+"."+req.params.alias+"."+req.params.verb);
 					//console.log(model)
 					//console.log(model[req.params.alias]);
 					var callback  = __callback__(req,res,next);
 //					console.log(callback);
-					console.log("rib.Models."+req.params.Model+"."+req.params.alias+".all");
+					//console.log("rib.Models."+req.params.Model+"."+req.params.alias+".all");
 					return rib.Models[req.params.Model][req.params.alias].all(id,callback);
 //					return action.apply(rib.Models[req.params.alias],[id,callback]);
 				case "new":
+					console.log("NEW : ",req.params.Model+"."+req.params.alias+"."+req.params.verb);
+					if(!model[req.params.alias]) return next(new Error("Could not locate an alias with that name"));
+					if(!model[req.params.alias][req.params.verb]) return next(new Error("Could not find that verb"));
 					if(!rib[model[req.params.alias].other_model]) return next(new Error("Could not locate other model. Weird"));
-					var u = new rib[model[req.params.alias].other_model]();
+					var u = new rib[model[req.params.alias].other_model](req.body);
+					console.log(u);
 					options={};
 					options.success  =function(err,result){
-//						console.log("RESULT",result);
-						model[req.params.alias].new.apply(model[req.params.alias],[{id:result.id},__callback__(req,res,next)]);
+						console.log("NEW RESULT",result);
+						model[req.params.alias].new.apply(model[req.params.alias],[req.params.id,{id:result.id},__callback__(req,res,next)]);
 					};
 					options.error 	 =__error__(req,res,next);
 					return u.save(payload,options);
 
+				case "insert_after":
+					//console.log("Insert");
+					if(!model[req.params.alias]) return next(new Error("Could not locate an alias with that name"));
+					//if(!model[req.params.alias][req.params.verb]) return next(new Error("Could not find that verb"));
+					//if(!rib[model[req.params.alias].other_model]) return next(new Error("Could not locate other model. Weird"));
+					//console.log(model[req.params.alias]);
+					model[req.params.alias].insert_after({
+						source_id:req.body.source_id,
+						target_id:req.body.target_id,
+						id: req.params.id,
+						callback:__callback__(req,res,next),
+					})
+					return;
+
+				case "delete":
+					console.log("DELETE");
+
+					if(!model[req.params.alias]) return next(new Error("Could not locate an alias with that name"));
+					console.log(model[req.params.alias]);
+					model[req.params.alias].delete({
+						id:req.params.id,
+						source_id:req.body.source_id,
+						callback:__callback__(req,res,next),
+					})
+					return;
 				default:
 					return next(new Error("Could not find that verb"));
 
@@ -194,7 +239,7 @@ rib.init(function(err,result){
 //	console.log(rib.Class.all(function(resp,err){
 //		console.log(resp,err);
 //	}));
-	console.log(rib.Models);
+//	console.log(rib.Models);
 	console.log("Ready!");
 });
 module.exports = router;

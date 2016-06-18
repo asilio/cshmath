@@ -1,16 +1,21 @@
 <div class = 'print sixteen columns'>
-	<label class='two columns'>Title:</label><label id='title' class='thirteen columns'> {{title}}</label>
-	<p id='question' class='fourteen columns'>{{{question}}}</p>
-</div><div class='edit sixteen columns'><div class='fourteen columns'>
-	<label class='two columns'>Title: </label><input id='title' type='text' value = '{{title}}'></input>
-	<label class='one columns'>Description: </label><textarea id='description' class='fourteen columns'>{{{description}}}</textarea>
-	<label class='one columns'>Header: </label><textarea id='header' class='fourteen columns'>{{{header}}}</textarea>
-	<label class='one columns'>Question: </label><textarea id='question' class='fourteen columns'>{{{question}}}</textarea>
-	<label class='one columns'>Answer: </label><textarea id='answer' class='fourteen columns'>{{{answer}}}</textarea>
-	<label class='one columns'>Solution: </label><textarea id='solution' class='fourteen columns'>{{{solution}}}</textarea>
-	<label class='one columns'>Graph_data: </label><textarea id='graph_data' class='fourteen columns'>{{{graph_data}}}</textarea>
-	<label class='two columns'>Placeholder: </label><input id='placeholder' type='text' value = '{{placeholder}}'></input>
-	<label class='two columns'>Answer_type: </label><select id='answer_type' selected='{{answer_type}}'>
+	<label >Title:</label><label id='title' > {{title}}</label>
+	<p id='question' >{{{question}}}</p>
+</div><div class='edit '>
+	<div style="display:block;width:100%">
+	<button class='__done__' style="display:block;float:left;">Done</button>
+	<button class="__delete__" id="{{id}}" style="display:block;float:right;">Drop Question</button>
+	</div>
+	<br><br><br>
+	<div style='display:block;float:left;width:100%'>
+
+	<label>Title: </label><textarea id='title' type='text' value = '{{title}}'>{{{title}}}</textarea>
+	<label >Header: </label><textarea id='header' >{{{header}}}</textarea>
+	<label >Question: </label><textarea id='question' >{{{question}}}</textarea>
+	<label >Answer: </label><textarea id='answer' >{{{answer}}}</textarea>
+	<label >Solution: </label><textarea id='solution' >{{{solution}}}</textarea>
+	<label >Description: </label><textarea id='description' >{{{description}}}</textarea>
+	<label>Answer_type: </label><select id='answer_type' selected='{{answer_type}}'>
 		<option value='{{answer_type}}' label='Currently: {{answer_type}}' selected='true'>
 		<option value='expression'>expression</option>
 		<option value='number'>number</option>
@@ -24,18 +29,17 @@
 		<option value='character'>character</option>
 		<option value='interval'>interval</option>
 	</select>
-	<label class='one columns'>Hint: </label><textarea id='hint' class='fourteen columns'>{{{hint}}}</textarea>
-	<label class='two columns'>Tags: </label><input id='tags' type='text' value = '{{tags}}'></input><form class='noactionupdate' action='/rest/Question.question.new/' method='POST'><input type='hidden' value='{{id}}'></input><input type='submit' value='Add New Assignment to Question'></submit></form>
-</div><button class='__done__ one columns'>Done</button></div><div class='view sixteen columns'><div class='fourteen columns'>
-	<label class='one columns'>Title:</label><p id='title' class='thirteen columns'> {{title}}</p>
-	<label class='one columns'>Description: </label><p id='description' class='sixteen columns'>{{{description}}}</p>
-	<label class='one columns'>Header: </label><p id='header' class='sixteen columns'>{{{header}}}</p>
-	<label class='one columns'>Question: </label><p id='question' class='sixteen columns'>{{{question}}}</p>
-	<label class='one columns'>Answer: </label><p id='answer' class='sixteen columns'>{{{answer}}}</p>
-	<label class='one columns'>Solution: </label><p id='solution' class='sixteen columns'>{{{solution}}}</p>
-	<label class='one columns'>Graph_data: </label><p id='graph_data' class='sixteen columns'>{{{graph_data}}}</p>
-	<label class='one columns'>Placeholder:</label><p id='placeholder' class='thirteen columns'> {{placeholder}}</p>
-	<label class='one columns'>Answer_type:</label><p id='answer_type' class='thirteen columns'> {{answer_type}}</p>
-	<label class='one columns'>Hint: </label><p id='hint' class='sixteen columns'>{{{hint}}}</p>
-	<label class='one columns'>Tags:</label><p id='tags' class='thirteen columns'> {{tags}}</p>
-</div><button class='__edit__ one columns'>Edit</button></div>
+	<label>Tags: </label><input id='tags' type='text' value = '{{tags}}'></input>
+	<label >Graph_data: </label><textarea id='graph_data' >{{{graph_data}}}</textarea>
+	<label>Placeholder: </label><input id='placeholder' type='text' value = '{{placeholder}}'></input>
+	<label >Hint: </label><textarea id='hint' >{{{hint}}}</textarea>
+	
+</div><button class='__done__'>Done</button></div>
+<div id="{{id}}" class='view ' title = "{{{description}}}"style='cursor:default;display:block;float:left;width:100%;position:relative;top:-18px;'>
+
+{{{title}}}
+
+<!--
+	<button class='__open_question__' id="{{id}}" style='float:right'>Open</button>
+	-->
+</div>

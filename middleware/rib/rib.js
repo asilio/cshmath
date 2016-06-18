@@ -18,6 +18,8 @@ _.each(Models,function(model){
 		var keys = _.keys(model.mtm);
 		var values = _.values(model.mtm);
 		for(var i = 0; i<keys.length; i++){
+			//console.log("MTM Assignment:")
+			//console.log(model.name+"."+keys[i]);
 			models[model.name][keys[i]]=new mtm(model.name,values[i],keys[i],_.clone(Models[values[i]].columns));
 			models[values[i]] = models[values[i]] || {};
 			//console.log(model.name,keys[i],"=",values[i]);
@@ -26,6 +28,8 @@ _.each(Models,function(model){
 				models[values[i]].mtm[keys[i]]=model.name;
 				models[values[i]].secondary.push(keys[i]);
 			}
+			//console.log("MTM Attachment")
+			//console.log(values[i]+"."+keys[i]);
 			models[values[i]][keys[i]]=new mtm(values[i],model.name,keys[i],_.clone(Models[model.name].columns),_.clone(Models[model.name].mtm));		
 		}
 	}
@@ -50,7 +54,7 @@ _.each(models,function(m){
 			rib.Model.delete(id,callback)
 	*/
 	exports[m.name].all 	= function(callback){
-		console.log("ALL");
+//		console.log("ALL");
 		db.all(this._name(),callback);
 	};
 	
@@ -62,6 +66,12 @@ _.each(models,function(m){
 	};
 	
 	exports[m.name].search 	= function(query,callback){
+		console.log("SEARCH")
+		console.log("NAME:",Models[this._name()]);
+
+		_.each(Models[this._name()],function(key,val){
+			console.log(key,val);
+		})
 		db.search(this._name(),query,callback);
 	};
 	
@@ -150,43 +160,43 @@ var init = function(callback){
 		var f = function(cbk){
 //			console.log("Creating Template for ",model.name);
 			var print 	= "<div class = 'print sixteen columns'>";
-			var view	= "<div class='view sixteen columns'><div class='fourteen columns'>";
-			var edit	= "<div class='edit sixteen columns'><div class='fourteen columns'>";
+			var view	= "<div class='view '><div style='display:block;float:left'>";
+			var edit	= "<div class='edit '><div style='display:block;float:left'>";
 			
 			_.each(model.columns,function(col,key){
 				if(col.print == false)
 					return;
 				if(col.type ==="TextField")
-					print+="\n\t<p id='"+key+"' class='fourteen columns'>{{{"+key+"}}}</p>";
+					print+="\n\t<p id='"+key+"' >{{{"+key+"}}}</p>";
 				if(col.type ==="CharField" || col.type ==="EmailField")
-					print+="\n\t<label class='two columns'>"+key[0].toUpperCase()+key.slice(1)+":</label><label id='"+key+"' class='thirteen columns'> {{"+key+"}}</label>";
+					print+="\n\t<label >"+key[0].toUpperCase()+key.slice(1)+":</label><label id='"+key+"' > {{"+key+"}}</label>";
 //				print+="<br>";
 			});			
 			
 			_.each(model.columns,function(col,key){
 				if(col.type ==="TextField")
-					view+="\n\t<label class='one columns'>"+key[0].toUpperCase()+key.slice(1)+": </label><p id='"+key+"' class='sixteen columns'>{{{"+key+"}}}</p>";
+					view+="\n\t<label >"+key[0].toUpperCase()+key.slice(1)+": </label><p id='"+key+"'>{{{"+key+"}}}</p>";
 				if(col.type ==="CharField" || col.type ==="EmailField")
-					view+="\n\t<label class='one columns'>"+key[0].toUpperCase()+key.slice(1)+":</label><p id='"+key+"' class='thirteen columns'> {{"+key+"}}</p>";
+					view+="\n\t<label>"+key[0].toUpperCase()+key.slice(1)+":</label><p id='"+key+"'> {{"+key+"}}</p>";
 				
 //				view+="<br>";
 			});
 			
 			_.each(model.columns, function(col,key){
 				if(col.type ==="TextField")
-					edit+="\n\t<label class='one columns'>"+key[0].toUpperCase()+key.slice(1)+": </label><textarea id='"+key+"' class='fourteen columns'>{{{"+key+"}}}</textarea>";
+					edit+="\n\t<label >"+key[0].toUpperCase()+key.slice(1)+": </label><textarea id='"+key+"' >{{{"+key+"}}}</textarea>";
 				if(col.type ==="CharField" || col.type ==="EmailField")
 					if(col.editable!=false && !col.choices)
-						edit+="\n\t<label class='two columns'>"+key[0].toUpperCase()+key.slice(1)+": </label><input id='"+key+"' type='text' value = '{{"+key+"}}'></input>";
+						edit+="\n\t<label>"+key[0].toUpperCase()+key.slice(1)+": </label><input id='"+key+"' type='text' value = '{{"+key+"}}'></input>";
 					else if(col.editable!=false && col.choices){
-						edit+="\n\t<label class='two columns'>"+key[0].toUpperCase()+key.slice(1)+": </label><select id='"+key+"' selected='{{"+key+"}}'>";
+						edit+="\n\t<label>"+key[0].toUpperCase()+key.slice(1)+": </label><select id='"+key+"' selected='{{"+key+"}}'>";
 						edit+="\n\t\t<option value='{{"+key+"}}' label='Currently: {{"+key+"}}' selected='true'>";
 						_.each(col.choices,function(choice){
 							edit+="\n\t\t<option value='"+choice+"'>"+choice+"</option>";
 						});
 						edit+="\n\t</select>";
 					} else
-						edit+="\n\t<label class='two columns'>"+key[0].toUpperCase()+key.slice(1)+": </label><label id='"+key+"'>{{"+key+"}}</label>";
+						edit+="\n\t<label>"+key[0].toUpperCase()+key.slice(1)+": </label><label id='"+key+"'>{{"+key+"}}</label>";
 //				edit+="<br>";
 			});
 			
@@ -202,7 +212,7 @@ var init = function(callback){
 			edit	+=	"\n</div><button class='__done__ one columns'>Done</button></div>";
 
 			var content=print+edit+view;
-			fs.writeFile("./public/templates/"+model.name+".hbs",content,cbk);
+			fs.writeFile("./public/templates/auto/"+model.name+".hbs",content,cbk);
 		};
 		
 		funcs.push(f);

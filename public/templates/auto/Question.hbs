@@ -1,0 +1,41 @@
+<div class = 'print sixteen columns'>
+	<label >Title:</label><label id='title' > {{title}}</label>
+	<p id='question' >{{{question}}}</p>
+</div><div class='edit '><div style='display:block;float:left'>
+	<label>Title: </label><input id='title' type='text' value = '{{title}}'></input>
+	<label >Description: </label><textarea id='description' >{{{description}}}</textarea>
+	<label >Header: </label><textarea id='header' >{{{header}}}</textarea>
+	<label >Question: </label><textarea id='question' >{{{question}}}</textarea>
+	<label >Answer: </label><textarea id='answer' >{{{answer}}}</textarea>
+	<label >Solution: </label><textarea id='solution' >{{{solution}}}</textarea>
+	<label >Graph_data: </label><textarea id='graph_data' >{{{graph_data}}}</textarea>
+	<label>Placeholder: </label><input id='placeholder' type='text' value = '{{placeholder}}'></input>
+	<label>Answer_type: </label><select id='answer_type' selected='{{answer_type}}'>
+		<option value='{{answer_type}}' label='Currently: {{answer_type}}' selected='true'>
+		<option value='expression'>expression</option>
+		<option value='number'>number</option>
+		<option value='function'>function</option>
+		<option value='matrix'>matrix</option>
+		<option value='equation'>equation</option>
+		<option value='array'>array</option>
+		<option value='list'>list</option>
+		<option value='tuple'>tuple</option>
+		<option value='string'>string</option>
+		<option value='character'>character</option>
+		<option value='interval'>interval</option>
+	</select>
+	<label >Hint: </label><textarea id='hint' >{{{hint}}}</textarea>
+	<label>Tags: </label><input id='tags' type='text' value = '{{tags}}'></input><form class='noactionupdate' action='/rest/Question.question.new/' method='POST'><input type='hidden' value='{{id}}'></input><input type='submit' value='Add New Assignment to Question'></submit></form>
+</div><button class='__done__ one columns'>Done</button></div><div class='view '><div style='display:block;float:left'>
+	<label>Title:</label><p id='title'> {{title}}</p>
+	<label >Description: </label><p id='description'>{{{description}}}</p>
+	<label >Header: </label><p id='header'>{{{header}}}</p>
+	<label >Question: </label><p id='question'>{{{question}}}</p>
+	<label >Answer: </label><p id='answer'>{{{answer}}}</p>
+	<label >Solution: </label><p id='solution'>{{{solution}}}</p>
+	<label >Graph_data: </label><p id='graph_data'>{{{graph_data}}}</p>
+	<label>Placeholder:</label><p id='placeholder'> {{placeholder}}</p>
+	<label>Answer_type:</label><p id='answer_type'> {{answer_type}}</p>
+	<label >Hint: </label><p id='hint'>{{{hint}}}</p>
+	<label>Tags:</label><p id='tags'> {{tags}}</p>
+</div><button class='__edit__ one columns'>Edit</button></div>

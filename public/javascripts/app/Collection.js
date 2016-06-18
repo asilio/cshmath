@@ -265,12 +265,12 @@ define("Collection",function(require){
 		// collection when they arrive. If `reset: true` is passed, the response
 		// data will be passed through the `reset` method instead of `set`.
 		fetch: function(options) {
-			console.log("FETCH");
+	//		console.log("FETCH");
 			options = _.extend({parse: true}, options);
 			var success = options.success;
 			var collection = this;
 			options.success = function(resp) {
-				//console.log("Success!")
+//				console.log("Success!")
 				//console.log(resp);
 				var method = options.reset ? 'reset' : 'set';
 				collection[method](resp, options);

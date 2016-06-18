@@ -3,7 +3,10 @@ var _		= 	require("lodash");
 
 var create	= function(options){
 	return db.insert(options.table,options.data,function(err,result){
-		if(err) return options.error(err);
+		if(err){
+			console.log(err,result);
+			return options.error(err);	
+		} 
 		var res = {};
 		res.id = result.insertId;
 		return options.success(res);
@@ -13,8 +16,8 @@ var create	= function(options){
 var read	= function(options){
 	var properties  = {};
 	properties.id = options.data.id;
-	console.log("DB Search...")
-	console.log(options)
+//	console.log("DB Search...")
+//	console.log(options)
 	return db.get(options.table,properties,function(err,result){
 	
 		console.log(err)

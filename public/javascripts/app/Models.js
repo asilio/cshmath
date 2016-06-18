@@ -3,7 +3,10 @@ Copyright Christopher William Person-Rennell 2014-2015
 All Rights Reserved
 */
 define("Models",function(require){
-
+/*
+Copyright Christopher William Person-Rennell 2014-2015
+All Rights Reserved
+*/
 var Models={
 
 	User:{
@@ -79,11 +82,11 @@ var Models={
 		
 		fk:{
 			creator:"User",
-			class:"Class",
+			submodule:"Module",
 		},
 		
 		mtm:{
-			submodule:"Module",
+			class_module:"Class",
 		},
 		
 		name:"Module",
@@ -121,18 +124,19 @@ var Models={
 	Question:{
 		columns:{
 			title:{type:"CharField",length:255},
-			tags:{type:"CharField",length:255},
-			placeholder:{type:"CharField",length:255},
+			description:{type:"TextField",print:false},			
+			header:{type:"TextField",print:false},
+			question:{type:"TextField",editable:true},
+			answer:{type:"TextField",print:false},
+			solution:{type:"TextField",print:false},
+			graph_data:{type:"TextField",print:false},
+			placeholder:{type:"CharField",length:255,print:false},
 			answer_type:{type:"CharField",choices:[
 				"expression","number","function","matrix","equation","array","list","tuple","string","character","interval"
-				]},
-			header:{type:"TextField"},
-			question:{type:"TextField"},
-			answer:{type:"TextField"},
-			solution:{type:"TextField"},
-			hint:{type:"TextField"},
-			description:{type:"TextField"},
-			graph_data:{type:"TextField"},
+				],print:false},
+			hint:{type:"TextField",print:false},
+			tags:{type:"CharField",length:255,print:false},
+
 		},
 	
 		defaults:{
@@ -170,7 +174,7 @@ var Models={
 		},
 		
 		mtm:{
-			class:"Class",
+			class_category:"Class",
 			subcategory:"Category"
 		},
 
@@ -228,8 +232,8 @@ var Models={
 		mtm:{
 			category:"Category",
 			question:"Question",
-			class:"Class",
-			module:"Module",
+			class_assignment:"Class",
+			module_assignment:"Module",
 		},
 		
 		name:"Assignment",
@@ -252,10 +256,11 @@ var Models={
 		},
 		
 		mtm:{
-			category:"Category",
-			module:"Module",
+			category_note:"Category",
+			lecture:"Module",
 		},
 	},
+	
 
 };
 

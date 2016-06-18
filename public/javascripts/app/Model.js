@@ -17,7 +17,7 @@ define("Model",function(require){
 		this.changed = {};
 		this.structure={};
 		var view = View.extend(this.view_extensions);
-		this.view=new view({model:this});
+		this.view=new view({model:this,mediator:this.mediator});
 		this.initialize.apply(this, arguments);
 	};
 

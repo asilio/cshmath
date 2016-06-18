@@ -1,0 +1,44 @@
+<h2>{{assignment.title}}</h2>
+
+	{{#each questions}}
+	<div class="no_break">
+		<div style="display:inline-block">
+			<h3 class="sixteen columns">{{direction title @root.assignment}}</h3>
+			<div class="question">
+			{{inc @index}}.
+				{{{question}}}
+			</div>
+			
+		</div>
+	<!--	
+	<div class="answer" >_____________</div>
+	-->
+	<vblock class="{{answer_type}}"></vblock>
+	</div>
+	
+	{{/each}}
+<h3></h3>
+{{#if instructor}}
+
+<div style="position:relative;display:block;height:.1cm;"><newpage class="sixteen columns"></newpage></div>
+<h2 class="sixteen columns" style="position:relative;display:block">{{assignment.title}} Key</h2>
+	<ol>
+	{{#each questions}}
+	<div class="no_break">
+		<div style="display:inline-block">
+			<h3 class="sixteen columns">{{direction title @root.assignment}}</h3>
+			<div class="question">
+			{{inc @index}}. 
+				{{{question}}}
+			</div>
+			
+		</div>
+	<!--<div class="answer" style="text-decoration:underline" >{{answer}}</div>-->
+	<vblock style="color:red">{{{solution}}}</vblock>	
+	</div>
+
+	{{/each}}
+	</ol>
+
+
+{{/if}}

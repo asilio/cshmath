@@ -73,6 +73,7 @@ var Models={
 			title:"Untitled",
 			description:"Description of the Module",
 			rank:"",
+			creator:1,
 		},
 		
 		fk:{

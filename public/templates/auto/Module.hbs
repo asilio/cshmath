@@ -1,0 +1,13 @@
+<div class = 'print sixteen columns'>
+	<label >Title:</label><label id='title' > {{title}}</label>
+	<label >Rank:</label><label id='rank' > {{rank}}</label>
+	<p id='description' >{{{description}}}</p>
+</div><div class='edit '><div style='display:block;float:left'>
+	<label>Title: </label><input id='title' type='text' value = '{{title}}'></input>
+	<label>Rank: </label><input id='rank' type='text' value = '{{rank}}'></input>
+	<label >Description: </label><textarea id='description' >{{{description}}}</textarea><form class='noactionupdate' action='/rest/Module.class_module.new/' method='POST'><input type='hidden' value='{{id}}'></input><input type='submit' value='Add New Class to Class_module'></submit></form><form class='noactionupdate' action='/rest/Module.module_assignment.new/' method='POST'><input type='hidden' value='{{id}}'></input><input type='submit' value='Add New Assignment to Module_assignment'></submit></form><form class='noactionupdate' action='/rest/Module.lecture.new/' method='POST'><input type='hidden' value='{{id}}'></input><input type='submit' value='Add New Note to Lecture'></submit></form>
+</div><button class='__done__ one columns'>Done</button></div><div class='view '><div style='display:block;float:left'>
+	<label>Title:</label><p id='title'> {{title}}</p>
+	<label>Rank:</label><p id='rank'> {{rank}}</p>
+	<label >Description: </label><p id='description'>{{{description}}}</p>
+</div><button class='__edit__ one columns'>Edit</button></div>

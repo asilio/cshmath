@@ -218,8 +218,8 @@ var inherit = {
 			var serverAttrs = options.parse ? model.parse(resp, options) : resp;
 			if (!model.set(serverAttrs, options)) return false;
 			if (success) success.call(options.context, model, resp, options);
-			console.log("FETCH")
-			console.log(resp);
+//			console.log("FETCH")
+//			console.log(resp);
 			model.trigger('sync', model, resp, options);
 		};
 		//wrapError(this, options);

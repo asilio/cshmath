@@ -13,6 +13,7 @@ define("View",function(require){
 	
 	var _ = require("underscore");
 	var $ = require("jquery");
+	var ui = require("jquery_ui");
 	var Obj = require("Object");
 	var hbs = require("hbs");
 	var sync = require("sync");
@@ -39,7 +40,11 @@ define("View",function(require){
 		this.__update__=false;
 		this._waiting_for_response=false;
 		this.listenTo(this.model,'change',this.saveModel);
-		
+		this.name = this.model.name;
+		if(this.mediator==undefined){
+			this.mediator = this.model.mediator;
+		}
+		this.trigger_count = 0;
 	};
 	
 	// Cached regex to split keys for `delegate`.
@@ -224,14 +229,38 @@ define("View",function(require){
 		},
 		
 		updateView:function(){
+			var views = [".view",".edit",".print"];
 			this.$(".view").hide();
 			this.$(".edit").hide();
 			this.$(".print").hide();
+			this.$(".edit").css("z-index",100);
 			
 			/* Event logic. This is custom designed to take advantage of the templates built by rib on the server*/
 			/*****Editing Logic******/
+
+			this.$('.__delete__').off().click(function(e){
+				this.mediator.trigger("delete:"+this.name,{source_id:e.target.id});
+			}.bind(this));
+
 			this.$(".__edit__").click(function(){
 				this.set_display("edit");
+			}.bind(this));
+
+			this.$('.view').draggable({
+				revert:true,
+			});
+			this.$('.view').droppable({
+				drop:function(event,ui){				
+					this.mediator.trigger("insert_after:"+this.name,{source_id:ui.draggable.attr("id"),target_id:$(event.target).attr("id")})
+				}.bind(this)
+			});
+
+			this.$('.view').click(function(){
+
+				this.mediator.trigger("select:"+this.name,{id:this.model.get("id"),el:this.$('.view')});
+				this.$('.view').focus();
+
+
 			}.bind(this));
 
 			this.$('.view').dblclick(function(){

@@ -91,6 +91,7 @@ app.use(function(req,res,next){
 	req.session.user.email="chris.personrennell@sacredsf.org";
 	req.session.user.id=1;
 	req.session.context.user = req.session.user;
+	req.session.context.instructor=true;
 	
 	next();
 });
@@ -102,8 +103,8 @@ app.use("/rest",rest);
 
 app.use(function(req,res,next){
 	//Load the templates once per session.
-	if(req.session.context.templates)
-		return next();
+	//if(req.session.context.templates)
+	//	return next();
 		
 	var t = Date.now();
 	var template_directory="./public/templates";

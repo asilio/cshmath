@@ -1,0 +1,101 @@
+h3{
+	break-before:always;
+	page-break-before:always;
+}
+body{
+	font: 4.2mm/5.6mm "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.question{
+	margin:0mm;
+	padding:0mm;
+	position:relative;
+	display:inline-block;
+	width:180mm;
+}
+
+.answer{
+	margin:0mm;
+	padding:0mm;
+	position:relative;
+	display:inline-block;
+	width:10mm;
+	float: right;
+	
+}
+
+.no_break{
+	display:block;
+	width:15cm;
+}
+
+.no_break, .no_break *{
+	page-break-inside:avoid;
+}
+
+/* #Page
+A4 Layout
+================================================== */
+	@page{
+		width:210mm;
+		height:297mm;
+		counter-reset:page;
+		counter-increment:page 1;
+		margin-top:20mm;
+		margin-bottom:20mm;
+	}
+	@page :left{
+		margin-right:20mm;
+		.container {margin-right:5mm}
+	}
+	
+	@page :blank {
+	  @top-center { content: "This page is intentionally left blank" }
+	}
+	
+	@page :right{
+		margin-left:20mm;
+		.container {margin-left:5mm} 
+		@bottom-center {content: "Page: " counter(page)};
+	}
+	
+	
+
+	@media print{		
+		vblock{
+			max-height:8.4in;
+			min-height:.75in;
+			display:block;
+		}
+		vblock.string{
+			min-height:1.6in;
+		}
+		
+		#print_container{
+			display: auto;
+		}
+		.no_print{
+			display:none;
+		}
+		button{
+			display:none;
+		}
+	}
+
+/* #Font-Face
+================================================== */
+/* 	This is the proper syntax for an @font-face file
+		Just create a "fonts" folder at the root,
+		copy your FontName into code below and remove
+		comment brackets */
+
+/*	@font-face {
+	    font-family: 'FontName';
+	    src: url('../fonts/FontName.eot');
+	    src: url('../fonts/FontName.eot?iefix') format('eot'),
+	         url('../fonts/FontName.woff') format('woff'),
+	         url('../fonts/FontName.ttf') format('truetype'),
+	         url('../fonts/FontName.svg#webfontZam02nTh') format('svg');
+	    font-weight: normal;
+	    font-style: normal; }
+*/

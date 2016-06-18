@@ -1,10 +1,24 @@
 <div class = 'print sixteen columns'>
-	<label class='two columns'>Title:</label><label id='title' class='thirteen columns'> {{title}}</label>
-	<p id='description' class='fourteen columns'>{{{description}}}</p>
-</div><div class='edit sixteen columns'><div class='fourteen columns'>
-	<label class='two columns'>Title: </label><input id='title' type='text' value = '{{title}}'></input>
-	<label class='one columns'>Description: </label><textarea id='description' class='fourteen columns'>{{{description}}}</textarea><form class='noactionupdate' action='/rest/Class.student.new/' method='POST'><input type='hidden' value='{{id}}'></input><input type='submit' value='Add New User to Student'></submit></form><form class='noactionupdate' action='/rest/Class.instructor.new/' method='POST'><input type='hidden' value='{{id}}'></input><input type='submit' value='Add New User to Instructor'></submit></form><form class='noactionupdate' action='/rest/Class.class_module.new/' method='POST'><input type='hidden' value='{{id}}'></input><input type='submit' value='Add New Module to Class_module'></submit></form><form class='noactionupdate' action='/rest/Class.class_category.new/' method='POST'><input type='hidden' value='{{id}}'></input><input type='submit' value='Add New Category to Class_category'></submit></form><form class='noactionupdate' action='/rest/Class.class_assignment.new/' method='POST'><input type='hidden' value='{{id}}'></input><input type='submit' value='Add New Assignment to Class_assignment'></submit></form>
-</div><button class='__done__ one columns'>Done</button></div><div class='view sixteen columns'><div class='fourteen columns'>
-	<label class='one columns'>Title:</label><p id='title' class='thirteen columns'> {{title}}</p>
-	<label class='one columns'>Description: </label><p id='description' class='sixteen columns'>{{{description}}}</p>
-</div><button class='__edit__ one columns'>Edit</button></div>
+	<label >Title:</label><label id='title' > {{title}}</label>
+	<p id='description' >{{{description}}}</p>
+</div>
+
+<div class='edit ' style="position:absolute;left:0px;top:0px;background:#6699ff;width:100%;height:100%"><div style='display:block;float:left;width:100%'>
+	
+	
+
+	<div style="display:block;width=100%">
+	<label>Title: </label><input id='title' type='text' value = '{{title}}'></input>
+	<label >Description: </label><textarea id='description' >{{{description}}}</textarea>
+	</div>
+</div><button class='__done__'>Done</button></div>
+
+<div id="{{id}}" class='view ' style='display:block;float:left;width:100%'>
+		<p id='title' style="cursor:default" title="{{description}}" > {{title}}</p>
+<!--
+<button class='__open_class__' id='{{id}}' style='float:right'>Open</button>
+-->
+</div>
+
+
+

@@ -5,6 +5,10 @@
 	<link rel='stylesheet' href='/stylesheets/base.css' />
 	<link rel='stylesheet' href='/stylesheets/skeleton.css' />
 	<link rel='stylesheet' href='/stylesheets/layout.css' />
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+	<link rel='stylesheet' href='/stylesheets/print.css' />
+
+
 	{{#if user}}
 		<script data-main="/javascripts/app/entry" src="/javascripts/require.js"></script>
 		{{{./csrf}}}
@@ -14,7 +18,35 @@
 	{{/if}}
   </head>
   <body class="print">
-  	<section class='no_print' >Logged in as {{user.displayName}}</section>
+    <div style="display:none">
+		\(
+			\def\real{\mathbb{R}}
+			\def\Real{\real}
+			\def\congruent{\stackrel{\sim}{=}}
+			\def\con{\congruent}
+			\def\ray#1{\stackrel{\longrightarrow}{#1}}
+			\def\line#1{\stackrel{\longleftrightarrow}{#1}}
+			\def\mangle{\text{m}\angle}
+			\def\degree{^\circ}
+			\def\arc#1{\overset{⏜}{#1}}
+		\)
+  </div>
+  	<button class="__show__classes__ no_print" style='display:none;'>Home</button>
+  	<button class="__show__modules__ no_print" id='-1' style='display:none'>Modules</button>
+	<button class="__show__assignments__ no_print" id='-1' style='display:none'>Assignments</button>
+	<button class="__show__questions__ no_print" id='-1' style='display:none'>Return to Regular View</button>
+	<button class="__print__assignment__ no_print" id='-1' style='display:none'>Printer Friendly View</button>
+	{{#if instructor}}
+	<button class="__add__classes__ no_print" id='-1' style='display:none;float:right;'>Add Classes</button>
+	<button class="__add__modules__ no_print" id='-1' style='display:none;float:right;'>Add Modules</button>
+	<button class="__add__assignments__ no_print" id='-1' style='display:none;float:right;'>Add Assignments</button>
+	<button class="__add__questions__ no_print" id='-1' style='display:none;float:right;'>Add Questions</button>
+	{{/if}}
     {{{body}}}
+    
+    <input type = "text" id="query" target="/rest/search/Class"></input>
+    <button type ="submit" id="search">Search</button>
+    
+
   </body>
 </html>

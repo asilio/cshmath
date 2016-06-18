@@ -1,13 +1,21 @@
 <div class = 'print sixteen columns'>
-	<label class='two columns'>Title:</label><label id='title' class='thirteen columns'> {{title}}</label>
-	<label class='two columns'>Rank:</label><label id='rank' class='thirteen columns'> {{rank}}</label>
-	<p id='description' class='fourteen columns'>{{{description}}}</p>
-</div><div class='edit sixteen columns'><div class='fourteen columns'>
-	<label class='two columns'>Title: </label><input id='title' type='text' value = '{{title}}'></input>
-	<label class='two columns'>Rank: </label><input id='rank' type='text' value = '{{rank}}'></input>
-	<label class='one columns'>Description: </label><textarea id='description' class='fourteen columns'>{{{description}}}</textarea><form class='noactionupdate' action='/rest/Module.class_module.new/' method='POST'><input type='hidden' value='{{id}}'></input><input type='submit' value='Add New Class to Class_module'></submit></form><form class='noactionupdate' action='/rest/Module.module_assignment.new/' method='POST'><input type='hidden' value='{{id}}'></input><input type='submit' value='Add New Assignment to Module_assignment'></submit></form>
-</div><button class='__done__ one columns'>Done</button></div><div class='view sixteen columns'><div class='fourteen columns'>
-	<label class='one columns'>Title:</label><p id='title' class='thirteen columns'> {{title}}</p>
-	<label class='one columns'>Rank:</label><p id='rank' class='thirteen columns'> {{rank}}</p>
-	<label class='one columns'>Description: </label><p id='description' class='sixteen columns'>{{{description}}}</p>
-</div><button class='__edit__ one columns'>Edit</button></div>
+	<label >Title:</label><label id='title' > {{title}}</label>
+	<label >Rank:</label><label id='rank' > {{rank}}</label>
+	<p id='description' >{{{description}}}</p>
+</div><div class='edit ' style="position:absolute;left:0px;top:0px;background:#6699ff;width:100%;height:100%"><div style='display:block;float:left;width:100%'>
+<div style="display:block;width:100%">
+	<button class='__done__' style="display:block;float:left;">Done</button>
+	<button class="__delete__" id="{{id}}" style="display:block;float:right;">Drop Module</button>
+	</div>
+	<br><br><br>
+	<label>Title: </label><input id='title' type='text' value = '{{title}}'></input>
+	<label>Rank: </label><input id='rank' type='text' value = '{{rank}}'></input>
+	<label >Description: </label><textarea id='description' >{{{description}}}</textarea>
+</div><button class='__done__'>Done</button></div>
+
+<div id="{{id}}" class='view ' style='display:block;float:left;width:100%'>
+		<label>Title:</label><p id='title' title='{{description}}' style="cursor:default"> {{title}}</p>
+<!--
+<button class='__open_module__' id="{{id}}" style='float:right'>Open</button>
+-->
+</div>

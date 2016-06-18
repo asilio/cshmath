@@ -1,0 +1,20 @@
+<div class = 'print sixteen columns'>
+	<label >Title:</label><label id='title' > {{title}}</label>
+	<p id='description' >{{{description}}}</p>
+	<label >Type:</label><label id='type' > {{type}}</label>
+</div><div class='edit '><div style='display:block;float:left'>
+	<label>Title: </label><input id='title' type='text' value = '{{title}}'></input>
+	<label >Description: </label><textarea id='description' >{{{description}}}</textarea>
+	<label>Type: </label><select id='type' selected='{{type}}'>
+		<option value='{{type}}' label='Currently: {{type}}' selected='true'>
+		<option value='Homework'>Homework</option>
+		<option value='Practice'>Practice</option>
+		<option value='Quiz'>Quiz</option>
+		<option value='Test'>Test</option>
+		<option value='Review'>Review</option>
+	</select><form class='noactionupdate' action='/rest/Assignment.category.new/' method='POST'><input type='hidden' value='{{id}}'></input><input type='submit' value='Add New Category to Category'></submit></form><form class='noactionupdate' action='/rest/Assignment.question.new/' method='POST'><input type='hidden' value='{{id}}'></input><input type='submit' value='Add New Question to Question'></submit></form><form class='noactionupdate' action='/rest/Assignment.class_assignment.new/' method='POST'><input type='hidden' value='{{id}}'></input><input type='submit' value='Add New Class to Class_assignment'></submit></form><form class='noactionupdate' action='/rest/Assignment.module_assignment.new/' method='POST'><input type='hidden' value='{{id}}'></input><input type='submit' value='Add New Module to Module_assignment'></submit></form>
+</div><button class='__done__ one columns'>Done</button></div><div class='view '><div style='display:block;float:left'>
+	<label>Title:</label><p id='title'> {{title}}</p>
+	<label >Description: </label><p id='description'>{{{description}}}</p>
+	<label>Type:</label><p id='type'> {{type}}</p>
+</div><button class='__edit__ one columns'>Edit</button></div>

@@ -6,7 +6,7 @@
 <div class='edit ' style="position:absolute;left:0px;top:0px;background:#6699ff;width:100%;height:100%"><div style='display:block;float:left;width:100%'>
 	
 	
-
+	<button class="__delete__" id="{{id}}" style="display:block;float:right;">Drop Class</button>
 	<div style="display:block;width=100%">
 	<label>Title: </label><input id='title' type='text' value = '{{title}}'></input>
 	<label >Description: </label><textarea id='description' >{{{description}}}</textarea>
@@ -18,6 +18,10 @@
 <!--
 <button class='__open_class__' id='{{id}}' style='float:right'>Open</button>
 -->
+</div>
+
+<div id = "{{id}}" class = "list" style = 'display:block;float:left;width:100%'>
+	<p class="ten columns " id='title' style="cursor:default" title="{{description}}" > {{title}}</p> <button class="add" value="Add Class" id="{{id}}">Add Class</button>
 </div>
 
 

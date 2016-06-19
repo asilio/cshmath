@@ -20,11 +20,22 @@
 	</select>
 </div><button class='__done__'>Done</button></div>
 
+
 <div id="{{id}}" class='view ' style='display:block;float:left;width:100%'>
 
-<p id='title' title="{{{description}}}" style="cursor:default"> {{type}} : {{title}}</p>
+	<p id='title' title="{{{description}}}" style="cursor:default"> {{type}} : {{title}}</p>
+
+	<!--
+	<button class='__open_assignment__' id="{{id}}">Open</button>
+-->
+</div>
+
+
+<div id = "{{id}}" class = "list" style = 'display:block;float:left;width:100%'>
+	<p id='title' title="{{{description}}}" style="cursor:default"> {{type}} : {{title}}</p>
 
 <!--
 <button class='__open_assignment__' id="{{id}}">Open</button>
 -->
+ <button class="add" value="Add Assignment" id="{{id}}">Add Assignment</button>
 </div>

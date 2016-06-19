@@ -22,6 +22,28 @@ define("app",function(require){
 
 	var mediator = new(new Object.extend({}));
 
+
+
+	/**
+	 * You first need to create a formatting function to pad numbers to two digits…
+	 **/
+	function twoDigits(d) {
+	    if(0 <= d && d < 10) return "0" + d.toString();
+	    if(-10 < d && d < 0) return "-0" + (-1*d).toString();
+	    return d.toString();
+	}
+
+	/**
+	 * …and then create the method to output the date string as desired.
+	 * Some people hate using prototypes this way, but if you are going
+	 * to apply this to more than one Date object, having it as a prototype
+	 * makes sense.
+	 **/
+	Date.prototype.toMYSQLString = function() {
+	    return this.getUTCFullYear() + "-" + twoDigits(1 + this.getUTCMonth()) + "-" + twoDigits(this.getUTCDate()) + " " + twoDigits(this.getUTCHours()) + ":" + twoDigits(this.getUTCMinutes()) + ":" + twoDigits(this.getUTCSeconds());
+	};
+
+
 	var ft = function(model_name,other_name, alias){
 		this.url="/rest/"+model_name+"."+alias+".";
 	};
@@ -127,6 +149,12 @@ customize for other sites****/
 		var Questions = app.Collection.extend({
 			model:app.Question,
 		});
+
+		app.collections = {};
+		app.collections.Class = Teaching;
+		app.collections.Assignment = Assignments;
+		app.collections.Module = Modules;
+		app.collections.Question = Questions;
 		
 		app.session.teaching = new Teaching();
 		app.session.modules = new Modules();
@@ -134,9 +162,107 @@ customize for other sites****/
 		app.session.assignments = new Assignments();
 		
 		app.session.questions = new Questions();
+		
+		app.search ={};
+		app.search.Class = new Teaching();
+		app.search.Assignment = new Assignments();
+		app.search.Module = new Modules();
+		app.search.Question = new Questions();
+
 		app.routes = new app.Workspace();
 		Backbone.history.start();
 
+
+		function add_class(id){
+			var target_id = app.session.teaching.last().get("id");
+			var source_id = id;
+
+			var options ={
+				method:"POST",
+				url:"/rest/User.instructor.add/id/"+app.session.user.get("id"),
+				data:{
+					id:id,
+				},
+				success:function(resp){
+					console.log("Added New Class")
+					console.log(resp);
+					app.routes.navigate("");
+					app.workspace.top_view();
+				},
+				error:function(resp){
+					$('#content').html(resp.responseText)
+					console.log(resp);
+				}
+
+			};
+			app.ajax(options);
+		}
+
+		function add_module(id){
+				var options ={
+					method:"POST",
+					url:"/rest/Class.class_module.add/id/"+app.session.class.get("id"),
+					success:function(resp){
+						console.log(resp);
+						app.routes.navigate("Class/"+app.session.class.get("id"));
+						app.workspace.class_view(app.session.class.get("id"));
+					},
+					error:function(resp){
+						$('#content').html(resp.responseText)
+						console.log(resp);
+					},
+					data:{
+						id:id,
+					}
+
+				};
+				app.ajax(options);
+			}
+
+			function add_assignment(id){
+				var options ={
+					method:"POST",
+					url:"/rest/Module.module_assignment.add/id/"+app.session.module.get("id"),
+					success:function(resp){
+						console.log(resp);
+						app.workspace.module_view(app.session.module.get("id"));
+						app.routes.navigate("Module/"+app.session.module.get("id"));
+					},
+					error:function(resp){
+						$('#content').html(resp.responseText);
+						console.log(resp);
+					},
+
+					complete:function(resp){
+						console.log("COMPLETE : ",resp);
+					},
+
+					data:{
+						id:id,
+					}
+
+				};
+				app.ajax(options);
+			}
+			function add_question(id){
+				var options ={
+					method:"POST",
+					url:"/rest/Assignment.question.add/id/"+app.session.assignment.get("id"),
+					success:function(resp){
+						app.routes.navigate("Assignment/"+app.session.assignment.get("id"));
+						app.workspace.assignment_view(app.session.assignment.get("id"));
+					},
+					error:function(resp){
+						$('#content').html(resp.responseText)
+						console.log(resp);
+					},
+					data:{
+						id:id
+					}
+
+				};
+				app.ajax(options);
+			}
 
 		$('#search').on("click",function(e){
 			var url = $("#query").attr("target");
@@ -154,15 +280,65 @@ customize for other sites****/
 		});
 
 		function search(query,url){
+			var model = _.last(url.split("/"));
+			$('#search_result').html("");
+
 			var options ={
 				url:url,
 				method:"POST",
 				data:{
 					query:query,
+				},
+				success:function(res){
+					
+					app.search[model]=new app.collections[model](res);
+					$('#search_result').append("<ol id='__search_list__' type='1'></ol>")
+					app.search[model].each(function(m){
+						m.view.set_display("list");
+						m.view.render();
+
+						$('#__search_list__').append("<li class='sixteen columns'></li>").append(m.view.el);
+						if(model=="Question"){
+							var content = math.render_question(_.clone(m.attributes));
+							//console.log(content)
+							m.view.$('.full').html(content.question);
+							console.log("QUESTIONS")
+							
+							mathjax.Hub.Queue(['Typeset',mathjax.Hub, '.full']);
+						}
+
+						m.view.$(".add").on("click",function(e){
+						//	console.log("Clicked Add")
+							var id = e.target.id;
+							mediator.trigger("add:"+model,{id:id});
+						})
+					});
+
+
+					
 				}
+
 			}
 			app.ajax(options);
 		}
+
+		mediator.on("add:Class",function(ctx){
+			console.log("Adding Class",ctx);
+			add_class(ctx.id);
+		})
+
+		mediator.on("add:Module",function(ctx){
+			console.log("Adding Module",ctx);
+			add_module(ctx.id);
+		})
+		mediator.on("add:Assignment",function(ctx){
+			console.log("Adding Assignment",ctx);
+			add_assignment(ctx.id);
+		})
+		mediator.on("add:Question",function(ctx){
+			console.log("Adding Question",ctx);
+			add_question(ctx.id);
+		})
 
 		mediator.on("view:class view:module view:assignment view:question view:top",function(e){
 			console.log(e);
@@ -287,7 +463,7 @@ customize for other sites****/
 				data:context,
 				success:function(resp){
 					console.log(resp);
-					app.workspace.module_view(app.session.class.get("id"));
+					app.workspace.class_view(app.session.class.get("id"));
 				},
 				error:function(resp){
 					console.log(resp);
@@ -306,7 +482,7 @@ customize for other sites****/
 				data:context,
 				success:function(resp){
 					console.log(resp);
-					app.workspace.assignment_view(app.session.module.get("id"));
+					app.workspace.module_view(app.session.module.get("id"));
 				},
 				error:function(resp){
 					console.log(resp);

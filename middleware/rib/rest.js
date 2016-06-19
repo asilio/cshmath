@@ -127,6 +127,11 @@ router.route("/:Model.:alias.:verb/id/:id")
 					};
 					options.error 	 =__error__(req,res,next);
 					return u.save(payload,options);
+				case "add":
+
+					if(!model[req.params.alias]) return next(new Error("Could not locate an alias with that name"));
+					model[req.params.alias].new(req.params.id,{id:req.body.id},__callback__(req,res,next));
+					return;
 
 				case "insert_after":
 					//console.log("Insert");

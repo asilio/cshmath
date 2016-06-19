@@ -2,7 +2,9 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   overflow-y: scroll;
 }
-
+.full{
+	background: #6699ff;
+}
 #content, #main_menu{
   overflow-y:scroll;
 }

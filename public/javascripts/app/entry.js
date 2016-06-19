@@ -35,8 +35,9 @@ requirejs.config({
 
 });
 var app;
+
 define('main',function(require){
-	var app = require("app");
+	app = require("app");
 	app.init();
 
 	/**

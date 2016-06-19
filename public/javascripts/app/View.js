@@ -220,7 +220,7 @@ define("View",function(require){
 		set_display:function(d){
 			//There are only 3 displays available, print, edit, and view.
 			console.log(d);	
-			if(d!="print" && d!="edit" && d!="view")
+			if(d!="print" && d!="edit" && d!="view" && d!="list")
 				d='view';
 			if(d == this.display) return;
 			
@@ -229,10 +229,11 @@ define("View",function(require){
 		},
 		
 		updateView:function(){
-			var views = [".view",".edit",".print"];
+			var views = [".view",".edit",".print","list"];
 			this.$(".view").hide();
 			this.$(".edit").hide();
 			this.$(".print").hide();
+			this.$(".list").hide();
 			this.$(".edit").css("z-index",100);
 			
 			/* Event logic. This is custom designed to take advantage of the templates built by rib on the server*/
@@ -262,6 +263,13 @@ define("View",function(require){
 
 
 			}.bind(this));
+
+			this.$('.list').mouseover(function(){
+				this.$('.full').show("fold");
+			}.bind(this)).mouseout(function(){
+				this.$('.full').removeAttr("style").fadeOut();
+			}.bind(this));
+
 
 			this.$('.view').dblclick(function(){
 				this.set_display("edit");

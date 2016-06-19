@@ -79,7 +79,7 @@ mtm.prototype.all = function(id,callback,order){
 	sql+="ORDER BY "+this.table+".rank "+order+"\n";
 	sql+="LIMIT 0,"+limit+";\n";
 
-	console.log("MTM:ALL:\n",sql, this.alias);
+//	console.log("MTM:ALL:\n",sql, this.alias);
 //	console.log(callback);
 	return db.mysql(sql,callback);
 };
@@ -93,7 +93,7 @@ mtm.prototype.new = function(id,data,callback){
 	data[this.column] = id;
 	data[this.other_column] = other_id;
 	//data.rank = 1;
-	console.log("TABLE: " ,this.table);
+//	console.log("TABLE: " ,this.table);
 	//console.log(data)
 	db.all(this.table,function(err,res){
 		//console.log(res,err)
@@ -108,8 +108,8 @@ mtm.prototype.new = function(id,data,callback){
 				r = 1*e.rank;
 		});
 
-		console.log("MAX RANK")
-		console.log(r);
+//		console.log("MAX RANK")
+//		console.log(r);
 		data.rank = r+1;
 		console.log("INSERTING DATA")
 		console.log(data)
@@ -127,8 +127,8 @@ mtm.prototype.insert_after = function(options){
 	var target_id  = options.target_id;
 	var callback  = options.callback;
 	var id        = options.id;
-	console.log(options)
-	console.log("INSERT AFTER: ",this.table)
+//	console.log(options)
+//	console.log("INSERT AFTER: ",this.table)
 
 	var options = {};
 	options[this.column] = id;
@@ -144,7 +144,7 @@ mtm.prototype.insert_after = function(options){
 		options[this.other_column] = target_id;
 		//console.log(options);
 		source_entry = res[0];
-		console.log(source_entry);
+//		console.log(source_entry);
 
 		db.get(this.table,options,function(err,res){
 				//console.log(res,err)
@@ -161,7 +161,7 @@ mtm.prototype.insert_after = function(options){
 							  "SET rank = rank - 1\n"+ 
 							  "WHERE "+this.column+" = "+id+" AND rank <= "+target_entry.rank+" AND rank >"+source_entry.rank+";";
 					
-					console.log(sql);
+					//console.log(sql);
 					
 					//db.update(this.table,source_entry,callback);
 					db.mysql(sql,function(err,res){
@@ -178,7 +178,7 @@ mtm.prototype.insert_after = function(options){
 							  "SET rank = rank + 1\n"+ 
 							  "WHERE "+this.column+" = "+id+" AND rank >= "+target_entry.rank+" AND rank <"+source_entry.rank+";";
 					
-					console.log(sql);
+//					console.log(sql);
 					
 					//db.update(this.table,source_entry,callback);
 					db.mysql(sql,function(err,res){
@@ -206,8 +206,8 @@ mtm.prototype.delete = function(options){
 	var source_id = options.source_id;
 	var callback  = options.callback;
 	var id        = options.id;
-	console.log(options)
-	console.log("DELETE ENTRY FROM: ",this.table,options)
+//	console.log(options)
+//	console.log("DELETE ENTRY FROM: ",this.table,options)
 
 	var options = {};
 	options[this.column] = id;
@@ -218,17 +218,35 @@ mtm.prototype.delete = function(options){
 
 mtm.prototype.add = function(options){
 	var source_id = options.source_id;
+	var target_id  = options.target_id;
 	var callback  = options.callback;
 	var id        = options.id;
-	var rank = options.rank;
+	//console.log(options)
+	//console.log("INSERT AFTER: ",this.table)
 
 	var options = {};
 	options[this.column] = id;
-	options[this.other_column] = source_id;
-	options.rank =rank;
+	options[this.other_column] = target_id;
+	
+	var source_entry = {};
+	source_entry.other_column = source_id;
 
-	console.log(options)
-	db.insert(this.table,options,callback);
+	db.get(this.table, options,function(err,res){
+		//console.log(res,err)
+		if(err || res.length == 0)
+			return callback(err,res);
+
+		var target_entry = res[0];
+		if(target_entry.rank == null || target_entry.rank == undefined){
+			target_entry.rank = 1;
+		}
+
+		source_entry.rank = target_entry.rank+1;
+
+	
+		console.log(source_entry);
+		db.insert(this.table,source_entry,callback);
+	});
 }
 
 //Forces a reset, assigning a 1-N value to the rank column.

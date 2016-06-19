@@ -35,11 +35,20 @@
 	<label >Hint: </label><textarea id='hint' >{{{hint}}}</textarea>
 	
 </div><button class='__done__'>Done</button></div>
-<div id="{{id}}" class='view ' title = "{{{description}}}"style='cursor:default;display:block;float:left;width:100%;position:relative;top:-18px;'>
+<div id="{{id}}" class='view ' title = "{{{description}}}" style='cursor:default;display:block;float:left;width:100%;position:relative;top:-18px;'>
 
 {{{title}}}
 
 <!--
 	<button class='__open_question__' id="{{id}}" style='float:right'>Open</button>
 	-->
+</div>
+
+<div id="{{id}}" class='list ' title = "{{{description}}}" style='cursor:default;display:block;float:left;width:100%;position:relative;top:-18px;'>
+
+<div >{{{title}}}
+
+	 <button class="add" value="Add Ququestion" id="{{id}}">Add Question</button>
+	 </div>
+<div class="full" style="display:none">{{{question}}}</div>
 </div>

@@ -66,13 +66,35 @@ _.each(models,function(m){
 	};
 	
 	exports[m.name].search 	= function(query,callback){
-		console.log("SEARCH")
+		console.log("SEARCH",query)
 		console.log("NAME:",Models[this._name()]);
+		var funcs = [];
 
-		_.each(Models[this._name()],function(key,val){
-			console.log(key,val);
-		})
-		db.search(this._name(),query,callback);
+		_.each(Models[this._name()].columns,function(key,val){
+			var options = {};
+			options[val] = query;
+			var f = function(cbk){
+				
+				db.search(this._name(),options,cbk);
+
+			}.bind(this);
+			
+			funcs.push(f);
+		}.bind(this))
+
+		async.series(funcs,function(err,result){
+			var res = [];
+			_.each(result,function(r){
+				//console.log(r[0])
+				res = _.union(res,r[0]);
+			})
+			res = _.uniq(res);
+			console.log(res);
+			//console.log(err,result);
+			callback(err,res);
+		});
+
+		//db.search(this._name(),options,callback);
 	};
 	
 	exports[m.name].filter 	= exports[m.name].search;

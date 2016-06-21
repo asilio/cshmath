@@ -82,7 +82,7 @@ router.route("/:Model.:alias.:verb/id/:id")
 	var model = new rib[req.params.Model]({id:req.params.id});
 	var id = req.params.id;
 	var payload ={};
-	console.log("BODY : ",req.body);
+//	console.log("BODY : ",req.body);
 	if(req.body["keys[]"])
 	{
 		if((typeof req.body["keys[]"])==="string")
@@ -96,7 +96,7 @@ router.route("/:Model.:alias.:verb/id/:id")
 		function(cbk){
 			model.fetch({success:cbk,error:cbk});
 		}],function(err,result){
-			console.log("FINAL CALLBACK", err,result);
+//			console.log("FINAL CALLBACK", err,result);
 			//if(!model[req.params.alias]) return next(new Error("Could not locate an alias with that name"));
 			//if(!model[req.params.alias][req.params.verb]) return next(new Error("Could not find that verb"));
 			
@@ -105,7 +105,7 @@ router.route("/:Model.:alias.:verb/id/:id")
 				case "all":
 					//We no longer want a specific model nor to create a new instance
 					//but we do want to return ALL of the instances of this model...
-					console.log(req.params.Model+"."+req.params.alias+"."+req.params.verb);
+//					console.log(req.params.Model+"."+req.params.alias+"."+req.params.verb);
 					//console.log(model)
 					//console.log(model[req.params.alias]);
 					var callback  = __callback__(req,res,next);
@@ -114,15 +114,15 @@ router.route("/:Model.:alias.:verb/id/:id")
 					return rib.Models[req.params.Model][req.params.alias].all(id,callback);
 //					return action.apply(rib.Models[req.params.alias],[id,callback]);
 				case "new":
-					console.log("NEW : ",req.params.Model+"."+req.params.alias+"."+req.params.verb);
+//					console.log("NEW : ",req.params.Model+"."+req.params.alias+"."+req.params.verb);
 					if(!model[req.params.alias]) return next(new Error("Could not locate an alias with that name"));
 					if(!model[req.params.alias][req.params.verb]) return next(new Error("Could not find that verb"));
 					if(!rib[model[req.params.alias].other_model]) return next(new Error("Could not locate other model. Weird"));
 					var u = new rib[model[req.params.alias].other_model](req.body);
-					console.log(u);
+//					console.log(u);
 					options={};
 					options.success  =function(err,result){
-						console.log("NEW RESULT",result);
+//						console.log("NEW RESULT",result);
 						model[req.params.alias].new.apply(model[req.params.alias],[req.params.id,{id:result.id},__callback__(req,res,next)]);
 					};
 					options.error 	 =__error__(req,res,next);
@@ -148,10 +148,10 @@ router.route("/:Model.:alias.:verb/id/:id")
 					return;
 
 				case "delete":
-					console.log("DELETE");
+//					console.log("DELETE");
 
 					if(!model[req.params.alias]) return next(new Error("Could not locate an alias with that name"));
-					console.log(model[req.params.alias]);
+	//				console.log(model[req.params.alias]);
 					model[req.params.alias].delete({
 						id:req.params.id,
 						source_id:req.body.source_id,

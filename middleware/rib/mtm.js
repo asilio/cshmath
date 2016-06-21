@@ -65,7 +65,7 @@ mtm.prototype.all = function(id,callback,order){
 	_.each(this.other_structure,function(val,keys,obj){
 		if(keys=="rank") 
 		{
-			console.log(this.other_model);
+			//console.log(this.other_model);
 			sql+=this.other_model+".rank, ";
 			return;
 		}
@@ -99,8 +99,8 @@ mtm.prototype.new = function(id,data,callback){
 		//console.log(res,err)
 		if(err)
 			return callback(err,res);
-		console.log("RESULTS")
-		console.log(res)
+		//console.log("RESULTS")
+		//console.log(res)
 		//r = _.max(res,function(e){return 1*e.rank});
 		r = 0;
 		_.each(res,function(e){
@@ -111,8 +111,8 @@ mtm.prototype.new = function(id,data,callback){
 //		console.log("MAX RANK")
 //		console.log(r);
 		data.rank = r+1;
-		console.log("INSERTING DATA")
-		console.log(data)
+	//	console.log("INSERTING DATA")
+//		console.log(data)
 		db.insert(this.table,data,callback);
 	}.bind(this));
 	
@@ -244,7 +244,7 @@ mtm.prototype.add = function(options){
 		source_entry.rank = target_entry.rank+1;
 
 	
-		console.log(source_entry);
+		//console.log(source_entry);
 		db.insert(this.table,source_entry,callback);
 	});
 }

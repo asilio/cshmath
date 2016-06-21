@@ -62,9 +62,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 //Custom to me!
 
 //Skip auth during development to allow for prototyping without internet connection.
-/*
+
 app.use('/login/:oauth2?',function(req,res,next){
-	console.log(req.params);
+//	console.log(req.params);
 	if(req.params.oauth2)
 		google.oauth2Client.getToken(req.query.code,function(err,tokens){
 			if(!err)
@@ -83,8 +83,9 @@ app.use('/login/:oauth2?',function(req,res,next){
 	else
 		res.render('login',{url:google.url});
 });
-*/
+
 app.use(context);
+/*
 app.use(function(req,res,next){
 	req.session.user = {};
 	req.session.user.displayName="Admin";
@@ -95,11 +96,16 @@ app.use(function(req,res,next){
 	
 	next();
 });
-/*
+*/
 app.use(csrf);
 app.use(verifyUser);
-*/
+
 app.use("/rest",rest);
+app.use("/logout",function(req,res,next){
+	req.session.user = {};
+	res.locals.user = {};
+	res.redirect("/");
+})
 
 app.use(function(req,res,next){
 	//Load the templates once per session.

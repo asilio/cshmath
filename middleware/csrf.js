@@ -38,11 +38,8 @@ function csrf(req,res,next){
 }
 
 function session(req,res,next){
-	///Allow a csrf token to be used either up to X times before resetting. Too many
-	///requests will require a page reload to keep things savy.
-	///X==100
 	req.session.csrf_counter = req.session.csrf_counter || 0;
-	if(!req.session.csrf || req.session.csrf_counter>=500)
+	if(!req.session.csrf)// || req.session.csrf_counter>=500)
 	{
 		req.session.csrf=generate_csrf();
 		req.session.csrf_counter=0;
